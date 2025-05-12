@@ -1,0 +1,10 @@
+Pan,12.50
+Refresco,17.00
+Galletas,22.80
+Cereal,35.00
+Leche,19.90
+Frijoles,25.00
+Chiles,24.00
+Tortillas,26.00
+Yogurt,30.00
+Harina,35.00

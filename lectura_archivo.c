@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estructuras.h"
-#include "lectura.h"
+#include "lectura_ar.h"
 
 Producto* leerProductosDesdeArchivo(const char* nombreArchivo) {
     FILE* archivo = fopen(nombreArchivo, "r");

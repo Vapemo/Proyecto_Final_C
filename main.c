@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "estructuras.h"
-#include "lectura.h"
+#include "lectura_ar.h"
 
 void mostrarProducto(Producto* producto) {
     if (producto) {
