@@ -1,57 +1,52 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 #include "estructuras.h"
 #include "lectura_ar.h"
-
-void mostrarProducto(Producto* producto) {
-    if (producto) {
-        printf("Producto: %s\n", producto->nombre);
-        printf("Precio: $%.2f\n", producto->precio);
-    } else {
-        printf("No hay más productos.\n");
-    }
-}
-
-void liberarLista(Producto* lista) {
-    Producto* actual;
-    while (lista) {
-        actual = lista;
-        lista = lista->siguiente;
-        free(actual);
-    }
-}
+#include "funciones.h"
 
 int main() {
+    Usuario usuario;
+    printf("Nombre del usuario: ");
+    fgets(usuario.nombre, sizeof(usuario.nombre), stdin);
+    usuario.nombre[strcspn(usuario.nombre, "\n")] = 0;
+
+    printf("Numero de celular: ");
+    fgets(usuario.numeroCelular, sizeof(usuario.numeroCelular), stdin);
+    usuario.numeroCelular[strcspn(usuario.numeroCelular, "\n")] = 0;
+
+    usuario.totalPagar = 0.0;
+    usuario.carrito = NULL;
+
     Producto* productos = leerProductosDesdeArchivo("productos.txt");
-    if (!productos) {
-        printf("No se pudieron cargar los productos.\n");
-        return 1;
-    }
 
-    Producto* actual = productos;
-    char tecla;
+    int opcion;
+    do {
+        printf("\n====== MENU PRINCIPAL ======\n");
+        printf("1. Ver lista de productos\n");
+        printf("2. Ver carrito\n");
+        printf("3. Ver mi informacion\n");
+        printf("4. Salir\n");
+        printf("Elige una opcion: ");
+        scanf("%d", &opcion);
+        getchar(); // Para consumir salto de linea
 
-    while (1) {
-        system("clear"); // Usar "cls" en Windows
-        mostrarProducto(actual);
-
-        printf("\nPresiona A (anterior), S (siguiente), Q (salir): ");
-        scanf(" %c", &tecla);
-
-        if (tecla == 'A' || tecla == 'a') {
-            // Retroceder en la lista no es posible en listas enlazadas simples
-            printf("\nNo se puede retroceder en esta implementación.\n");
-        } else if (tecla == 'S' || tecla == 's') {
-            if (actual->siguiente) {
-                actual = actual->siguiente;
-            } else {
-                printf("\nNo hay más productos.\n");
-            }
-        } else if (tecla == 'Q' || tecla == 'q') {
-            break;
+        switch (opcion) {
+            case 1:
+                navegarYAgregar(productos, &usuario);
+                break;
+            case 2:
+                verCarrito(usuario);
+                break;
+            case 3:
+                verInformacion(usuario);
+                break;
+            case 4:
+                printf("Bye :)!\n");
+                break;
+            default:
+                printf("Opcion no valida.\n");
         }
-    }
+    } while (opcion != 4);
 
-    liberarLista(productos);
     return 0;
 }

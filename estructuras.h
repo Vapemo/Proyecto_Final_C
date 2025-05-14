@@ -13,8 +13,10 @@ typedef struct Producto {
 // Estructura para el usuario
 typedef struct Usuario {
     char nombre[MAX_NOMBRE];
-    char direccion[100];
+    char numeroCelular[11];
+    float totalPagar;
+    Producto* carrito;
 } Usuario;
 
-#endif
+#endif // ESTRUCTURAS_H
 
