@@ -1,8 +1,19 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "estructuras.h"
 #include "lectura_ar.h"
 #include "funciones.h"
+
+
+
+int esNumeroValido(char* numero) {
+    if (strlen(numero) != 10) return 0;
+    for (int i = 0; i < 10; i++) {
+        if (!isdigit(numero[i])) return 0;
+    }
+    return 1;
+}
 
 int main() {
     Usuario usuario;
@@ -10,9 +21,11 @@ int main() {
     fgets(usuario.nombre, sizeof(usuario.nombre), stdin);
     usuario.nombre[strcspn(usuario.nombre, "\n")] = 0;
 
-    printf("Numero de celular: ");
-    fgets(usuario.numeroCelular, sizeof(usuario.numeroCelular), stdin);
-    usuario.numeroCelular[strcspn(usuario.numeroCelular, "\n")] = 0;
+    do {
+        printf("Numero de celular (10 digitos): ");
+        fgets(usuario.numeroCelular, sizeof(usuario.numeroCelular), stdin);
+        usuario.numeroCelular[strcspn(usuario.numeroCelular, "\n")] = 0;
+    } while (!esNumeroValido(usuario.numeroCelular));
 
     usuario.totalPagar = 0.0;
     usuario.carrito = NULL;
@@ -41,12 +54,17 @@ int main() {
                 verInformacion(usuario);
                 break;
             case 4:
-                printf("Bye :)!\n");
+                guardarCarritoEnArchivo(usuario);
+                printf("Hasta luego!\n");
                 break;
             default:
                 printf("Opcion no valida.\n");
         }
     } while (opcion != 4);
 
+    liberarMemoria(productos);
+    liberarMemoria(usuario.carrito);
+
     return 0;
 }
+

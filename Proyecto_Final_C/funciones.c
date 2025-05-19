@@ -63,3 +63,27 @@ void verInformacion(Usuario usuario) {
     printf("Celular: %s\n", usuario.numeroCelular);
     printf("Total a pagar: $%.2f\n", usuario.totalPagar);
 }
+
+void guardarCarritoEnArchivo(Usuario usuario) {
+    FILE* archivo = fopen("carrito.txt", "w");
+    if (!archivo) {
+        printf(" No se pudo guardar el carrito.\n");
+        return;
+    }
+    Producto* actual = usuario.carrito;
+    while (actual) {
+        fprintf(archivo, "%s,%.2f\n", actual->nombre, actual->precio);
+        actual = actual->siguiente;
+    }
+    fclose(archivo);
+    printf(" Carrito guardado en 'carrito.txt'\n");
+}
+
+void liberarMemoria(Producto* lista) {
+    Producto* temp;
+    while (lista) {
+        temp = lista;
+        lista = lista->siguiente;
+        free(temp);
+    }
+}
